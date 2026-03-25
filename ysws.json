@@ -1,0 +1,32 @@
+{
+  "jackpot": {
+    "ending_date": "2026-07-07T00:00:00Z",
+    "could_be_extended": true,
+    "economics": {
+      "dollars_per_hours": 6,
+      "based_on": "from https://hackclub.slack.com/archives/C0ADEGZL5HD/p1774043876004439 (official)"
+    },
+    "irl_event": {
+      "status": "canceled",
+      "reason_for_cancellation": "logistics and budget",
+      "proof:": "https://hackclub.slack.com/archives/C0ADEGZL5HD/p1774043876004439"
+    }
+  },
+  "example": {
+    "ending_date": "2026-07-07T00:00:00Z",
+    "extension": {
+      "could_be_extended": true,
+      "reason_for_extension": "trust me bro",
+      "proof": "none"
+    },
+    "economics": {
+      "dollars_per_hours": 6,
+      "based_on": "from https://hackclub.slack.com/archives/C0ADEGZL5HD/p1774043876004439 (official)"
+    },
+    "irl_event": {
+      "status": "canceled",
+      "reason_for_cancellation": "logistics and budget",
+      "proof:": "https://hackclub.slack.com/archives/C0ADEGZL5HD/p1774043876004439"
+    }
+  }
+}
