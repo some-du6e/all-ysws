@@ -19,3 +19,26 @@ def generate(prompt, stream=False, model="minimax/minimax-m2-her", simple=True):
     if simple: return response.choices[0].message.content
     return response
 
+
+def generate_yap():
+    # get the prompt
+    try:
+        with open("prompts/generate.md", "r", encoding='utf-8') as f:
+            prompt = f.read()
+    except Exception as e:
+        print("OOPS: "+str(e))
+
+    # get the json
+    try:
+        with open("ysws.json", "r", encoding='utf-8') as f:
+            json = f.read()     
+            print(json)
+    except Exception as e:
+        print("OOPS: "+str(e))
+
+    # mix them together
+    replacethisforthejson = "[JASON HERE]"
+    prompt = prompt.replace(replacethisforthejson, json)
+    
+    respone = generate(prompt)
+    print(respone)

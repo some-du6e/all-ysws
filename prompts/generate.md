@@ -1,8 +1,8 @@
 # Goal
-Summarize a Hack Club JSON file of different ysws and make a consise 
+Summarize a Hack Club JSON file of different ysws and make a consise list sorted by dollars per hour 
 
 ## Instructions
-- Input: the full JSON export from Hack Club (may include arrays like `events`, `projects`, `members`, `clubs`, etc.). Use only the data present in the file.
+- Input: a json file listing all current Hackclub ysws (You ship, we ship)
 - Output: produce both a short human-readable summary using the writing style instructions.
 - Constraints: do not invent or infer facts not present in the input. If a field is missing, explicitly return "not available" for that value.
 
@@ -30,5 +30,10 @@ Guidelines:
 Do not use these words:
 literally, actually, certainly, probably, basically, could, maybe, delve, embark, enlightening, esteemed, shed light, craft, crafting, imagine, realm, game-changer, unlock, discover, skyrocket, abyss, not alone, in a world where, revolutionize, disruptive, utilize, utilizing, dive deep, tapestry, illuminate
 Please make the final result concise.
+The result is going to be posted as a slack bot, so feel free to use slack things.
 
 ## Example 
+... ill do it later
+
+## Input
+[JASON HERE]

@@ -3,6 +3,7 @@ import os
 from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 from dotenv import load_dotenv
+from components.slackutils import gatekeep
 load_dotenv()
 # This sample slack application uses SocketMode
 # For the companion getting started setup guide,
@@ -16,33 +17,29 @@ app = App(token=os.environ.get("SLACK_BOT_TOKEN"))
 @app.message("updateNOWplz")
 def message_hello(message, say, client):
     # say() sends a message to the channel where the event was triggered
-    if message['user'] == os.environ.get("OWNER"):
-        pass
-    else:
-        client.chat_postEphemeral(
-            channel=message['channel'],
-            user=message['user'],
-            text=f"Listen up <@{message['user']}>. What you just tried to do is not allowed."
-        )
+    gatekeep(message, client)
+    
+    client.chat_update(
+        channel=os.environ.get("CHANNEL_ID"),
+        ts=os.environ.get("MESSAGE_TS"),
+        text="This message has been edited!",
+        # You can also provide a full 'blocks' payload here
+    )
+
+
+
+
+
+
+
+
+@app.event("message")
+def ownertalk(body, logger):
+    # check if owner
+    if gatekeep(body['event'], app.client, "Bye bud") == False:
         return
     
-    say("""test
-test
-test""")
-
-
-@app.action("button_click")
-def action_button_click(body, ack, say):
-    # Acknowledge the action
-    ack()
-    say(f"<@{body['user']['id']}> clicked the button")
-
-
-
-# the console told me to
-@app.event("message")
-def handle_message_events(body, logger):
-    logger.info(body)
+    print(body)
 
 # Start your app
 if __name__ == "__main__":
