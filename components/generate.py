@@ -1,6 +1,11 @@
+import json
+from pyexpat.errors import messages
+
 from openrouter import OpenRouter
+from openai import OpenAI # this is only cuz the docs said so
 import os
 from dotenv import load_dotenv
+from components.slack_updatemessages import refreshmessages
 load_dotenv()
 def generate(prompt, stream=False, model="minimax/minimax-m2-her", simple=True):
     # prob not the best idea shoving 1000+ characters thru here but it works for now
@@ -42,3 +47,150 @@ def generate_yap():
     
     respone = generate(prompt)
     print(respone)
+
+
+
+def kinda_agentic(messages, body, logger, app):
+    model = "nvidia/nemotron-3-super-120b-a12b:free"
+    # add system prompt
+    # i dont have any rn TODO
+
+    # init client
+    client = OpenAI(api_key=os.environ.get("HACKCLUBAI_TOKEN"), base_url=os.environ.get("HACKCLUBAI_URL"))
+
+    # make tools
+    def edit_yswsjson(content):
+        try:
+            with open("ysws.json", "w", encoding='utf-8') as f:
+                f.write(content)
+            return "ysws.json updated successfully"
+        except Exception as e:
+            return "OOPS: "+str(e)
+    
+    def read_yswsjson():
+        try:
+            with open("ysws.json", "r", encoding='utf-8') as f:
+                json = f.read()     
+                return json
+        except Exception as e:
+            return "OOPS: "+str(e)
+        
+    def refresh_channel_messages():
+        print("Refreshing channel messages...")
+        refreshmessages(app.client)
+        return "Channel messages refreshed successfully"
+        
+    def print_hello(string_to_print):
+        return str(string_to_print)
+    
+    # define tools
+    tools = [
+        {
+            "type": "function",
+            "function": {
+                "name": "print_message",
+                "description": "Print a message in the users console",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "string_to_print": {
+                            "type": "array",
+                            "items": {"type": "string"},
+                            "description": "String to print in the console"
+                        }
+                    },
+                    "required": ["string_to_print"]
+                }
+            }
+        },
+        {
+        "type": "function",
+        "function": {
+            "name": "refresh_channel_messages",
+            "description": "Refresh the messages in a Slack channel by deleting the old ones and posting new ones but with the same content",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        }
+        }
+    ]
+    tool_mapping = {
+        "print_message": print_hello,
+        "refresh_channel_messages": refresh_channel_messages
+    }
+
+    # # # # # # # # craft the request
+    # # # # # # # request_1 = {
+    # # # # # # #     "model": model,
+    # # # # # # #     "tools": tools,
+    # # # # # # #     "messages": messages
+    # # # # # # # }
+
+    # # # # # # # # get response
+    # # # # # # # response_1 = client.chat.completions.create(**request_1)
+    # # # # # # # response_message = response_1.choices[0].message
+    
+    # # # # # # # # process tool calls now
+    # # # # # # # for tool_call in response_message.tool_calls:
+    # # # # # # #     tool_name = tool_call.function.name
+    # # # # # # #     tool_args = json.loads(tool_call.function.arguments)
+    # # # # # # #     tool_response = tool_mapping[tool_name](**tool_args)
+    # # # # # # #     messages.append({
+    # # # # # # #         "role": "tool",
+    # # # # # # #         "tool_call_id": tool_call.id,
+    # # # # # # #         "content": json.dumps(tool_response),
+    # # # # # # #     })
+
+    # # # # # # # # fabricate the second request
+    # # # # # # # request_2 = {
+    # # # # # # #     "model": model,
+    # # # # # # #     "messages": messages,
+    # # # # # # #     "tools": tools
+    # # # # # # # }
+        # # # # # # # response_2 = client.chat.completions.create(**request_2)
+
+
+
+    def call_llm(msgs):
+        resp = client.chat.completions.create(
+            model=model,
+            tools=tools,
+            messages=msgs
+        )
+        msgs.append(resp.choices[0].message.dict())
+        return resp
+
+    def get_tool_response(response):
+        tool_call = response.choices[0].message.tool_calls[0]
+        tool_name = tool_call.function.name
+        tool_args = json.loads(tool_call.function.arguments)
+
+        # Look up the correct tool locally, and call it with the provided arguments
+        # Other tools can be added without changing the agentic loop
+        tool_result = tool_mapping[tool_name](**tool_args)
+
+        return {
+            "role": "tool",
+            "tool_call_id": tool_call.id,
+            "content": tool_result,
+        }
+
+    max_iterations = 10
+    iteration_count = 0
+
+    while iteration_count < max_iterations:
+        iteration_count += 1
+        resp = call_llm(messages)
+
+        if resp.choices[0].message.tool_calls is not None:
+            messages.append(get_tool_response(resp))
+        else:
+            break
+
+    if iteration_count >= max_iterations:
+        print("Warning: Maximum iterations reached")
+
+    app.client.chat_postMessage(channel=os.environ.get("OWNER_CHAT"), text=messages[-1]['content'])
+
