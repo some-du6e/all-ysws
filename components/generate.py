@@ -60,10 +60,10 @@ def kinda_agentic(messages, body, logger, app):
     client = OpenAI(api_key=os.environ.get("HACKCLUBAI_TOKEN"), base_url=os.environ.get("HACKCLUBAI_URL"))
 
     # make tools
-    def edit_yswsjson(content):
+    def edit_yswsjson(replacement):
         try:
             with open("ysws.json", "w", encoding='utf-8') as f:
-                f.write(content)
+                f.write(replacement)
             return "ysws.json updated successfully"
         except Exception as e:
             return "OOPS: "+str(e)
@@ -246,5 +246,9 @@ def kinda_agentic(messages, body, logger, app):
     if iteration_count >= max_iterations:
         print("Warning: Maximum iterations reached")
 
-    app.client.chat_postMessage(channel=os.environ.get("OWNER_CHAT"), text=messages[-1]['content'])
+    # normalize whitespace before posting to avoid stuff like "throughthe" or "I'dbe"
+    raw_content = messages[-1]['content']
+    cleaned_content = ' '.join(raw_content.split())
+
+    app.client.chat_postMessage(channel=os.environ.get("OWNER_CHAT"), text=cleaned_content)
 

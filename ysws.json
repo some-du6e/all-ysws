@@ -30,5 +30,13 @@
       "reason_for_cancellation": "logistics and budget",
       "proof:": "https://hackclub.slack.com/archives/C0ADEGZL5HD/p1774043876004439"
     }
+  },
+  "flavortown": {
+    "deadline": "2026-04-30T00:00:00.000Z",
+    "description": "Cook personal projects. Win free prizes.",
+    "website": "https://flavortown.hackclub.com/?ref=ysws-catalog",
+    "slack": "https://hackclub.enterprise.slack.com/archives/C09MPB8NE8H",
+    "slack_channel": "#flavortown",
+    "status": "active"
   }
 }
