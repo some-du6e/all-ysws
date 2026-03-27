@@ -29,6 +29,7 @@ def message_hello(message, say, client):
 
 @app.event("message")
 def ownertalk(body, logger):
+    wipecontext = "wipecontextplz"
     # check if owner
     if gatekeep(body['event'], app.client, "Bye bud") == False:
         return
@@ -40,13 +41,20 @@ def ownertalk(body, logger):
     # fetch conversation history
     history = app.client.conversations_history(channel=os.environ.get("OWNER_CHAT"), limit=100)
     
+    # get system prompt
+    with open("prompts/agent.md", "r", encoding='utf-8') as f:
+        system_prompt = f.read()
+
     # build messages array with system prompt + conversation
     messages = [
-        {"role": "system", "content": "You are a helpful assistant."}
+        {"role": "system", "content": system_prompt}
     ]
     for msg in reversed(history['messages']):
+        content = msg.get('text', '')
+        if wipecontext in content:
+            messages = [{"role": "system", "content": system_prompt}]
         role = "assistant" if msg.get('user') != os.environ.get("BOT_USER_ID") else "user"
-        messages.append({"role": role, "content": msg.get('text', '')})
+        messages.append({"role": role, "content": content})
     
     # process the message
     kinda_agentic(messages, body, logger, app)

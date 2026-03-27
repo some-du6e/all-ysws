@@ -1,4 +1,5 @@
 import json
+import urllib.request
 from pyexpat.errors import messages
 
 from openrouter import OpenRouter
@@ -83,6 +84,15 @@ def kinda_agentic(messages, body, logger, app):
     def print_hello(string_to_print):
         return str(string_to_print)
     
+    def get_yswsjson():
+        try:
+            url = "https://github.com/hackclub/YSWS-Catalog/raw/refs/heads/main/api.json"
+            response = urllib.request.urlopen(url)
+            data = response.read().decode('utf-8')
+            return data
+        except Exception as e:
+            return "OOPS: "+str(e)
+
     # define tools
     tools = [
         {
@@ -114,11 +124,55 @@ def kinda_agentic(messages, body, logger, app):
                 "required": []
             }
         }
+        },
+        {
+        "type": "function",
+        "function": {
+            "name": "get_overview_of_most_ysws",
+            "description": "Read a JSON file containing MOST (doesn NOT have all of them) current and past and draft YSWSs. THIS IS NOT RELATED TO THE OTHER YSWS CATALOG. THIS IS ONLY FOR REFERENCE",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        }
+        },
+        {
+        "type": "function",
+        "function": {
+            "name": "read_ysws_json",
+            "description": "Read a JSON file containing the current YSWS catalog",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        }
+        },
+        {
+        "type": "function",
+        "function": {
+            "name": "modify_ysws_json",
+            "description": "Modify a JSON file containing the current YSWS catalog",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "replacement": {
+                        "type": "string",
+                        "description": "The replacement content for the YSWS JSON file"
+                    }
+                },
+                "required": ["replacement"]
+            }
+        }
         }
     ]
     tool_mapping = {
         "print_message": print_hello,
-        "refresh_channel_messages": refresh_channel_messages
+        "refresh_channel_messages": refresh_channel_messages,
+        "get_overview_of_most_ysws": get_yswsjson,
+        "read_ysws_json": read_yswsjson,
+        "modify_ysws_json": edit_yswsjson
     }
 
     # # # # # # # # craft the request
