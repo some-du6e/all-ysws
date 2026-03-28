@@ -31,7 +31,7 @@ def message_hello(message, say, client):
 
 @app.event("message")
 def ownertalk(body, logger):
-    wipecontext = "/clear"
+    wipecontext = ".clear"
     # check if owner
     if gatekeep(body['event'], app.client, "Bye bud") == False:
         return

@@ -23,6 +23,7 @@
     },
     "economics": {
       "dollars_per_hours": 6,
+      "doohickeys_to_dollars": 1,
       "based_on": "from https://hackclub.slack.com/archives/C0ADEGZL5HD/p1774043876004439 (official)"
     },
     "irl_event": {

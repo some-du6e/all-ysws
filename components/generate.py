@@ -99,14 +99,14 @@ def kinda_agentic(messages, body, logger, app):
             "type": "function",
             "function": {
                 "name": "print_message",
-                "description": "Print a message in the users console",
+                "description": "Print a message to the console for debugging purposes",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "string_to_print": {
                             "type": "array",
                             "items": {"type": "string"},
-                            "description": "String to print in the console"
+                            "description": "String or array of strings to print"
                         }
                     },
                     "required": ["string_to_print"]
@@ -114,57 +114,57 @@ def kinda_agentic(messages, body, logger, app):
             }
         },
         {
-        "type": "function",
-        "function": {
-            "name": "refresh_channel_messages",
-            "description": "Refresh the messages in a Slack channel by deleting the old ones and posting new ones but with the same content",
-            "parameters": {
-                "type": "object",
-                "properties": {},
-                "required": []
+            "type": "function",
+            "function": {
+                "name": "refresh_channel_messages",
+                "description": "Delete all messages in a Slack channel and repost them with the same content to refresh the view",
+                "parameters": {
+                    "type": "object",
+                    "properties": {},
+                    "required": []
+                }
             }
-        }
         },
         {
-        "type": "function",
-        "function": {
-            "name": "get_overview_of_most_ysws",
-            "description": "Read a JSON file containing MOST (doesn NOT have all of them) current and past and draft YSWSs. THIS IS NOT RELATED TO THE OTHER YSWS CATALOG. THIS IS ONLY FOR REFERENCE",
-            "parameters": {
-                "type": "object",
-                "properties": {},
-                "required": []
+            "type": "function",
+            "function": {
+                "name": "get_overview_of_most_ysws",
+                "description": "Fetch the YSWS overview JSON from GitHub (includes current, past, and draft YSWSs). Note: This is a separate dataset from the main catalog.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {},
+                    "required": []
+                }
             }
-        }
         },
         {
-        "type": "function",
-        "function": {
-            "name": "read_ysws_json",
-            "description": "Read a JSON file containing the current YSWS catalog",
-            "parameters": {
-                "type": "object",
-                "properties": {},
-                "required": []
+            "type": "function",
+            "function": {
+                "name": "read_ysws_json",
+                "description": "Read the local YSWS catalog JSON file (ysws.json)",
+                "parameters": {
+                    "type": "object",
+                    "properties": {},
+                    "required": []
+                }
             }
-        }
         },
         {
-        "type": "function",
-        "function": {
-            "name": "modify_ysws_json",
-            "description": "Modify a JSON file containing the current YSWS catalog",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "replacement": {
-                        "type": "string",
-                        "description": "The replacement content for the YSWS JSON file"
-                    }
-                },
-                "required": ["replacement"]
+            "type": "function",
+            "function": {
+                "name": "modify_ysws_json",
+                "description": "Overwrite the local YSWS catalog JSON file (ysws.json) with new content. Only use after reading the file first.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "replacement": {
+                            "type": "string",
+                            "description": "Complete replacement JSON content for the YSWS catalog"
+                        }
+                    },
+                    "required": ["replacement"]
+                }
             }
-        }
         }
     ]
     tool_mapping = {
