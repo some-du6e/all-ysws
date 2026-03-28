@@ -8,7 +8,7 @@ import os
 from dotenv import load_dotenv
 from components.slack_updatemessages import refreshmessages
 load_dotenv()
-def generate(prompt, stream=False, model="minimax/minimax-m2-her", simple=True):
+def generate(prompt, stream=False, model=os.environ.get("MODEL"), simple=True):
     # prob not the best idea shoving 1000+ characters thru here but it works for now
 
     # init client
@@ -52,10 +52,10 @@ def generate_yap():
 
 
 def kinda_agentic(messages, body, logger, app):
-    model = "nvidia/nemotron-3-super-120b-a12b:free"
+    model = os.environ.get("MODEL")
     # add system prompt
     # i dont have any rn TODO
-
+    # ^ added but injected in the slack file
     # init client
     client = OpenAI(api_key=os.environ.get("HACKCLUBAI_TOKEN"), base_url=os.environ.get("HACKCLUBAI_URL"))
 
@@ -239,6 +239,8 @@ def kinda_agentic(messages, body, logger, app):
         resp = call_llm(messages)
 
         if resp.choices[0].message.tool_calls is not None:
+            texteroo = "Calling this tool: "+resp.choices[0].message.tool_calls[0].function.name+" with arguments: "+resp.choices[0].message.tool_calls[0].function.arguments
+            app.client.chat_postMessage(channel=os.environ.get("OWNER_CHAT"), text=texteroo)
             messages.append(get_tool_response(resp))
         else:
             break
@@ -250,5 +252,8 @@ def kinda_agentic(messages, body, logger, app):
     raw_content = messages[-1]['content']
     cleaned_content = ' '.join(raw_content.split())
 
+    # check for 𓂀
+    if '𓂀' in cleaned_content:
+        cleaned_content = cleaned_content.replace('𓂀', '𓂀: cleared ')
     app.client.chat_postMessage(channel=os.environ.get("OWNER_CHAT"), text=cleaned_content)
 

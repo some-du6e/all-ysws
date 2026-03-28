@@ -5,6 +5,8 @@ from slack_bolt.adapter.socket_mode import SocketModeHandler
 from dotenv import load_dotenv
 from components.slackutils import gatekeep
 from components.generate import generate, generate_yap, kinda_agentic
+from datetime import datetime
+
 load_dotenv()
 # This sample slack application uses SocketMode
 # For the companion getting started setup guide,
@@ -29,7 +31,7 @@ def message_hello(message, say, client):
 
 @app.event("message")
 def ownertalk(body, logger):
-    wipecontext = "wipecontextplz"
+    wipecontext = "/clear"
     # check if owner
     if gatekeep(body['event'], app.client, "Bye bud") == False:
         return
@@ -45,19 +47,40 @@ def ownertalk(body, logger):
     with open("prompts/agent.md", "r", encoding='utf-8') as f:
         system_prompt = f.read()
 
+    # change some stuff in the system prompt
+    ## inject the clear command 
+    system_prompt = system_prompt.replace("[SUPERSIGMABOYZZZ]", wipecontext)
+    ## inject the time in ISO 8601 format
+    now = datetime.now().isoformat()
+    system_prompt = system_prompt.replace("[TIMERN]", now) 
+    ## injec t the owner id
+    system_prompt = system_prompt.replace("[OWNER_CHAT_ID]", os.environ.get("OWNER"))
+    ## inject the main channel id
+    system_prompt = system_prompt.replace("[MAIN_CHANNEL_ID]", os.environ.get("CHANNEL_ID"))
+    
     # build messages array with system prompt + conversation
     messages = [
         {"role": "system", "content": system_prompt}
     ]
     for msg in reversed(history['messages']):
-        content = msg.get('text', '')
-        if wipecontext in content:
+        content = msg.get('text', '').strip()
+        if not content:
+            continue
+        if content == wipecontext:
             messages = [{"role": "system", "content": system_prompt}]
-        role = "assistant" if msg.get('user') != os.environ.get("BOT_USER_ID") else "user"
+            continue
+        is_bot_message = (
+            msg.get('user') == os.environ.get("BOT_USER_ID")
+            or msg.get('bot_id') is not None
+        )
+        role = "assistant" if is_bot_message else "user"
         messages.append({"role": role, "content": content})
     
     # process the message
-    kinda_agentic(messages, body, logger, app)
+    try:
+        kinda_agentic(messages, body, logger, app)
+    except Exception as e:
+        app.client.chat_postMessage(channel=os.environ.get("OWNER_CHAT"), text="OOPS: "+str(e))
 
 
 # Start your app

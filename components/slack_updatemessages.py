@@ -1,5 +1,6 @@
 import json
 import os
+import components.generate as gen
 def refreshmessages(client):
     # get the messages from the file
     with open('messages.json', 'r', encoding='utf-8') as file:
@@ -48,3 +49,19 @@ def refreshmessages(client):
     with open('messages.json', 'w', encoding='utf-8') as file:
         json.dump(data, file, indent=4)
     return "Messages refreshed successfully"
+
+def generateMessages(client, update=False):
+    # generate the msg
+    yap = gen.generate_yap()
+
+    # replace the msg
+    with open('messages.json', 'r', encoding='utf-8') as file:
+        data = json.load(file)
+    data['old_message1'] = yap
+    with open('messages.json', 'w', encoding='utf-8') as file:
+        json.dump(data, file, indent=4)
+    
+    # refresh if update is true
+    if update:
+        refreshmessages(client)
+        
