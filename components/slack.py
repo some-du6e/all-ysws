@@ -57,6 +57,8 @@ def ownertalk(body, logger):
     system_prompt = system_prompt.replace("[OWNER_CHAT_ID]", os.environ.get("OWNER"))
     ## inject the main channel id
     system_prompt = system_prompt.replace("[MAIN_CHANNEL_ID]", os.environ.get("CHANNEL_ID"))
+    ## remove comments that start with <//>
+    system_prompt = "\n".join([line for line in system_prompt.split("\n") if not line.strip().startswith("<//>")])
     
     # build messages array with system prompt + conversation
     messages = [
