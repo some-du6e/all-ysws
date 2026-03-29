@@ -6,7 +6,7 @@ from openrouter import OpenRouter
 from openai import OpenAI # this is only cuz the docs said so
 import os
 from dotenv import load_dotenv
-from components.slack_updatemessages import refreshmessages
+from components.slack_updatemessages import generateMessages
 load_dotenv()
 def generate(prompt, stream=False, model=os.environ.get("MODEL"), simple=True):
     # prob not the best idea shoving 1000+ characters thru here but it works for now
@@ -48,6 +48,7 @@ def generate_yap():
     
     respone = generate(prompt)
     print(respone)
+    return respone
 
 
 
@@ -77,9 +78,9 @@ def kinda_agentic(messages, body, logger, app):
         except Exception as e:
             return "OOPS: "+str(e)
         
-    def refresh_channel_messages():
+    def refresh_channel_messages(update):
         print("Refreshing channel messages...")
-        refreshmessages(app.client)
+        generateMessages(app.client,update)
         return "Channel messages refreshed successfully"
         
     def print_hello(string_to_print):
@@ -117,11 +118,16 @@ def kinda_agentic(messages, body, logger, app):
         {
             "type": "function",
             "function": {
-                "name": "refresh_channel_messages",
-                "description": "Delete all messages in a Slack channel and repost them with the same content to refresh the view",
+                "name": "update_channel_messages",
+                "description": "Updates the channel messages using llms. No parameters needed, but you can include {\"update\": true} if you want to trigger the update function instead of just regenerating the messages for the next call.   ",
                 "parameters": {
                     "type": "object",
-                    "properties": {},
+                    "properties": {
+                        "update": {
+                            "type": "boolean",
+                            "description": "Whether to trigger the update function (true) or just regenerate the messages for the next call (false)"
+                        }
+                    },
                     "required": []
                 }
             }
@@ -170,7 +176,7 @@ def kinda_agentic(messages, body, logger, app):
     ]
     tool_mapping = {
         "print_message": print_hello,
-        "refresh_channel_messages": refresh_channel_messages,
+        "update_channel_messages": refresh_channel_messages,
         "get_overview_of_most_ysws": get_yswsjson,
         "read_ysws_json": read_yswsjson,
         "modify_ysws_json": edit_yswsjson
