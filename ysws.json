@@ -33,11 +33,23 @@
     }
   },
   "flavortown": {
-    "deadline": "2026-04-30T00:00:00.000Z",
+    "status": "active",
+    "ending_date": "2026-04-30T00:00:00Z",
     "description": "Cook personal projects. Win free prizes.",
     "website": "https://flavortown.hackclub.com/?ref=ysws-catalog",
     "slack": "https://hackclub.enterprise.slack.com/archives/C09MPB8NE8H",
     "slack_channel": "#flavortown",
-    "status": "active"
+    "extension": {
+      "could_be_extended": false,
+      "reason_for_extension": "none",
+      "proof": "https://hackclub.slack.com/archives/C09MATKQM8C/p1772997667857529?thread_ts=1772996636.500639&cid=C09MATKQM8C"
+    },
+    "economics": {
+      "doohickeys_to_dollars": 0.2,
+      "based_on": "https://hackclub.slack.com/archives/C09MATKQM8C/p1771304915154329?thread_ts=1771304786.665389&cid=C09MATKQM8C"
+    },
+    "irl_event": {
+      "status": "none"
+    }
   }
 }

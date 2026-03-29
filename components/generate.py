@@ -60,10 +60,11 @@ def kinda_agentic(messages, body, logger, app):
     client = OpenAI(api_key=os.environ.get("HACKCLUBAI_TOKEN"), base_url=os.environ.get("HACKCLUBAI_URL"))
 
     # make tools
-    def edit_yswsjson(replacement):
+    def edit_yswsjson(**kwargs):
         try:
+            import json as json_mod
             with open("ysws.json", "w", encoding='utf-8') as f:
-                f.write(replacement)
+                json_mod.dump(kwargs, f, indent=2)
             return "ysws.json updated successfully"
         except Exception as e:
             return "OOPS: "+str(e)
@@ -248,9 +249,11 @@ def kinda_agentic(messages, body, logger, app):
     if iteration_count >= max_iterations:
         print("Warning: Maximum iterations reached")
 
-    # normalize whitespace before posting to avoid stuff like "throughthe" or "I'dbe"
+    # normalize multiple spaces into single spaces, but preserve newlines
     raw_content = messages[-1]['content']
-    cleaned_content = ' '.join(raw_content.split())
+    lines = raw_content.split('\n')
+    cleaned_lines = [' '.join(line.split()) for line in lines]
+    cleaned_content = '\n'.join(cleaned_lines)
 
     # check for 𓂀
     if '𓂀' in cleaned_content:
