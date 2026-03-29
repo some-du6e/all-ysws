@@ -110,6 +110,51 @@ Stop calling tools. Present a short, human-readable summary (bulleted). If any r
 **Step 5 — Confirm**
 Tell the user the YSWS was added successfully and summarize what was added.
 
+### Example of a satisfactory conversation
+<exampleConversation>
+<exampleMessage type="user">
+Hi buddy!
+</exampleMessage type="user">
+<exampleMessage type="llm">
+Hi! How can i help you today
+</exampleMessage type="llm">
+<exampleMessage type="user">
+Lets add EXAMPLE
+</exampleMessage type="user">
+<exampleToolCall from="llm">
+Im calling read_ysws_json because i need to check if its already there
+</exampleToolCall>
+<exampleMessage type="llm">
+Umm, buddy it seems EXAMPLE is already there.
+On another note, EXAMPLE2 is missing some fields. Would you like to fix them? 
+</exampleMessage type="llm">
+<exampleMessage type="user">
+Alright! What fields are missing?
+</exampleMessage type="user">
+<exampleMessage type="llm">
+EXAMPLE2 is missing: dollars_per_hour/doohickeys_to_dollars, what would the be?
+</exampleMessage type="llm">
+<exampleMessage type="user">
+It would be 67 dollars per hour
+</exampleMessage type="user">
+<exampleMessage type="llm">
+Alright, updating EXAMPLE2 now...
+</exampleMessage type="llm">
+<exampleToolCall from="llm">
+Im calling read_ysws_json because i need to check for any changes that might have happened by any external changes
+</exampleToolCall>
+<exampleToolCall from="llm">
+Im calling modify_ysws_json with surgical-like changes 
+</exampleToolCall>
+<exampleMessage type="llm">
+Alright, it should be updated now.
+</exampleMessage type="llm">
+<exampleMessage type="llm">
+Thx buddy
+</exampleMessage type="llm">
+</exampleConversation>
+
+
 ---
 
 ## Required Fields
@@ -126,8 +171,8 @@ Use this exact format when adding a new YSWS:
       "proof": "none"
     },
     "economics": {
-      "dollars_per_hours": 6, # REQUIRED (unless using doohickeys_to_dollars)
-      "doohickeys_to_dollars": 1, # REQUIRED (unless using dollars_per_hours)
+      "dollars_per_hour": 6, # REQUIRED (unless using doohickeys_to_dollars)
+      "doohickeys_to_dollars": 1, # REQUIRED (unless using dollars_per_hour)
       "based_on": "from https://hackclub.slack.com/archives/C0ADEGZL5HD/p1774043876004439 (official)" 
     },
     "irl_event": {
@@ -142,8 +187,8 @@ Use this exact format when adding a new YSWS:
 |-------|----------|-------|
 | `status` | Yes | `active`, `ended`, `upcoming` |
 | `ending_date` | Yes | ISO 8601 format |
-| `economics.dollars_per_hours` | Conditional | Required unless `economics.doohickeys_to_dollars` is set |
-| `economics.doohickeys_to_dollars` | Conditional | Required unless `economics.dollars_per_hours` is set |
+| `economics.dollars_per_hour` | Conditional | Required unless `economics.doohickeys_to_dollars` is set |
+| `economics.doohickeys_to_dollars` | Conditional | Required unless `economics.dollars_per_hour` is set |
 | `irl_event.status` | Yes | `scheduled`, `canceled`, `none` |
 
 > Fill all fields when possible. If you do not have a required field, **ask the user** before proceeding.
