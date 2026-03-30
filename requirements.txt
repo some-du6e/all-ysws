@@ -2,4 +2,3 @@ slack-bolt
 python-dotenv
 openrouter
 openai
-textual

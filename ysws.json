@@ -13,25 +13,6 @@
       "proof:": "https://hackclub.slack.com/archives/C0ADEGZL5HD/p1774043876004439"
     }
   },
-  "example": {
-    "status": "active",
-    "ending_date": "2026-07-07T00:00:00Z",
-    "extension": {
-      "could_be_extended": true,
-      "reason_for_extension": "trust me bro",
-      "proof": "none"
-    },
-    "economics": {
-      "dollars_per_hours": 6,
-      "doohickeys_to_dollars": 1,
-      "based_on": "from https://hackclub.slack.com/archives/C0ADEGZL5HD/p1774043876004439 (official)"
-    },
-    "irl_event": {
-      "status": "canceled",
-      "reason_for_cancellation": "logistics and budget",
-      "proof:": "https://hackclub.slack.com/archives/C0ADEGZL5HD/p1774043876004439"
-    }
-  },
   "flavortown": {
     "status": "active",
     "ending_date": "2026-04-30T00:00:00Z",

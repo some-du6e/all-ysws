@@ -1,0 +1,26 @@
+{
+  "name": "all-ysws",
+  "version": "1.0.0",
+  "description": "https://app.slack.com/client/E09V59WQY1E/C0ANNEK7QR0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/some-du6e/all-ysws.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/some-du6e/all-ysws/issues"
+  },
+  "homepage": "https://github.com/some-du6e/all-ysws#readme",
+  "type": "module",
+  "dependencies": {
+    "@clack/prompts": "^1.1.0",
+    "@inquirer/search": "^4.1.6",
+    "@slack/bolt": "^4.6.0",
+    "picocolors": "^1.1.1"
+  }
+}
