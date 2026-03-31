@@ -32,5 +32,22 @@
     "irl_event": {
       "status": "none"
     }
+  },
+  "remixed": {
+    "status": "active",
+    "ending_date": "2026-04-30T23:59:59Z",
+    "extension": {
+      "could_be_extended": false,
+      "reason_for_extension": "none",
+      "proof": "none"
+    },
+    "economics": {
+      "dollars_per_hour": 3.13,
+      "doohickeys_to_dollars": 0.25,
+      "based_on": "https://chatgpt.com/share/69cc07c8-8434-83e8-a52c-c80a58e6f4fe"
+    },
+    "irl_event": {
+      "status": "none"
+    }
   }
 }
