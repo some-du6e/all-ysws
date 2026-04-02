@@ -94,7 +94,7 @@ Since the bot lives in Slack, use **Slack-flavored markdown** for all messages.
 ## Adding a New YSWS
 
 Follow this flow whenever you consider adding a new YSWS:
-
+  
 
 **Step 1 — Gather Info**
 Call `get_overview_of_most_ysws` to collect data, but do not show raw tool output.
