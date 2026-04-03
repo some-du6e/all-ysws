@@ -64,8 +64,16 @@ def kinda_agentic(messages, body, logger, app):
     def edit_yswsjson(**kwargs):
         try:
             import json as json_mod
+            replacement = kwargs.get("replacement")
+            if not isinstance(replacement, str) or not replacement.strip():
+                return "OOPS: missing replacement JSON string"
+
+            parsed = json_mod.loads(replacement)
+            if not isinstance(parsed, dict):
+                return "OOPS: replacement must decode to a JSON object"
+
             with open("ysws.json", "w", encoding='utf-8') as f:
-                json_mod.dump(kwargs, f, indent=2)
+                json_mod.dump(parsed, f, indent=2)
             return "ysws.json updated successfully"
         except Exception as e:
             return "OOPS: "+str(e)
@@ -256,10 +264,26 @@ def kinda_agentic(messages, body, logger, app):
         print("Warning: Maximum iterations reached")
 
     # normalize multiple spaces into single spaces, but preserve newlines
-    raw_content = messages[-1]['content']
-    lines = raw_content.split('\n')
-    cleaned_lines = [' '.join(line.split()) for line in lines]
-    cleaned_content = '\n'.join(cleaned_lines)
+    raw_content = messages[-1].get('content')
+
+    # Some assistant messages can have None content (for example tool-call turns).
+    # Fall back to the latest non-empty assistant content so we can always reply safely.
+    if not isinstance(raw_content, str) or not raw_content.strip():
+        raw_content = ""
+        for msg in reversed(messages):
+            if msg.get("role") != "assistant":
+                continue
+            content = msg.get("content")
+            if isinstance(content, str) and content.strip():
+                raw_content = content
+                break
+
+    if not raw_content:
+        cleaned_content = "I couldn't generate a text response for that request."
+    else:
+        lines = raw_content.split('\n')
+        cleaned_lines = [' '.join(line.split()) for line in lines]
+        cleaned_content = '\n'.join(cleaned_lines)
 
     # check for 𓂀
     if '𓂀' in cleaned_content:

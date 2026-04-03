@@ -57,6 +57,37 @@ The result goes to a Slack bot, so use Slack-compatible formatting:
 
 Make it feel like a newsletter with some personality and emotion.
 
+## Empty fields in the json
+- If there are fields like None like for the extension then dont mention it!
+
+<example>
+<inputJSON>
+"remixed": {
+    "status": "active",
+    "ending_date": "2026-04-30T23:59:59Z",
+    "extension": {
+      "could_be_extended": false,
+      "reason_for_extension": "none",
+      "proof": "none"
+    },
+    "economics": {
+      "dollars_per_hour": 3.13,
+      "tokens_to_dollars": 0.25,
+      "based_on": "https://chatgpt.com/share/69cc07c8-8434-83e8-a52c-c80a58e6f4fe"
+    },
+    "irl_event": {
+      "status": "none"
+    }
+  }
+</inputJSON>
+<LLMThinking>
+Well... there is no irl event and there is no extensions then i shouldnt mention it...
+</LLMThinking>
+<LLMOutput>
+[... the newsletter]
+</LLMOutput>
+
+</example>
 ---
 
 ## Example
