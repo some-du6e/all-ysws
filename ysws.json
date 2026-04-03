@@ -49,5 +49,26 @@
     "irl_event": {
       "status": "none"
     }
+  },
+  "carnival": {
+    "status": "active",
+    "ending_date": "2099-12-31T23:59:59Z",
+    "description": "Build an extension, plugin, or widget get prizes",
+    "website": "https://carnival.hackclub.com/",
+    "slack": "https://hackclub.slack.com/archives/C091ZRTMF16",
+    "slack_channel": "#carnival",
+    "extension": {
+      "could_be_extended": true,
+      "reason_for_extension": "indefinite program",
+      "proof": "none"
+    },
+    "economics": {
+      "dollars_per_hour": 4,
+      "tokens_to_dollars": 0.4,
+      "based_on": "user provided: 10 tokens = $4, 1 hour = 10 tokens"
+    },
+    "irl_event": {
+      "status": "none"
+    }
   }
 }
