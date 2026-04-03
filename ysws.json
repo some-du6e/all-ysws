@@ -70,5 +70,25 @@
     "irl_event": {
       "status": "none"
     }
+  },
+  "hctg": {
+    "status": "active",
+    "ending_date": "2026-06-08T00:00:00Z",
+    "description": "Code for 40 hours & fly out to Manhattan to compete in an IRL adventure game!",
+    "website": "https://game.hackclub.com/?ref=ysws-catalog",
+    "slack": "https://hackclub.enterprise.slack.com/archives/C088DT8P7B8",
+    "slack_channel": "#hack-club-the-game",
+    "extension": {
+      "could_be_extended": false,
+      "reason_for_extension": "none",
+      "proof": "https://hackclub.slack.com/archives/C0A9XULS1SL/p1775257803419629?thread_ts=1775257753.278389&cid=C0A9XULS1SL"
+    },
+    "economics": {
+      "tokens_to_dollars": 1,
+      "based_on": "https://hackclub.slack.com/archives/C0A9XULS1SL/p1775257670780139 (1 hour = 1 token, shop items $3-5/token, travel stipends $8/token)"
+    },
+    "irl_event": {
+      "status": "scheduled"
+    }
   }
 }
