@@ -135,7 +135,7 @@ On another note, EXAMPLE2 is missing some fields. Would you like to fix them?
 Alright! What fields are missing?
 </exampleMessage type="user">
 <exampleMessage type="llm">
-EXAMPLE2 is missing: dollars_per_hour/doohickeys_to_dollars, what would the be?
+EXAMPLE2 is missing: dollars_per_hour/tokens_to_dollars, what would the be?
 </exampleMessage type="llm">
 <exampleMessage type="user">
 It would be 67 dollars per hour
@@ -194,8 +194,8 @@ Use this exact format when adding a new YSWS:
       "proof": "none"
     },
     "economics": {
-      "dollars_per_hour": 6, # REQUIRED (unless using doohickeys_to_dollars)
-      "doohickeys_to_dollars": 1, # REQUIRED (unless using dollars_per_hour)
+      "dollars_per_hour": 6, # REQUIRED (unless using tokens_to_dollars)
+      "tokens_to_dollars": 1, # REQUIRED (unless using dollars_per_hour)
       "based_on": "from https://hackclub.slack.com/archives/C0ADEGZL5HD/p1774043876004439 (official)" 
     },
     "irl_event": {
@@ -210,8 +210,8 @@ Use this exact format when adding a new YSWS:
 |-------|----------|-------|
 | `status` | Yes | `active`, `ended`, `upcoming` |
 | `ending_date` | Yes | ISO 8601 format |
-| `economics.dollars_per_hour` | Conditional | Required unless `economics.doohickeys_to_dollars` is set |
-| `economics.doohickeys_to_dollars` | Conditional | Required unless `economics.dollars_per_hour` is set |
+| `economics.dollars_per_hour` | Conditional | Required unless `economics.tokens_to_dollars` is set |
+| `economics.tokens_to_dollars` | Conditional | Required unless `economics.dollars_per_hour` is set |
 | `irl_event.status` | Yes | `scheduled`, `canceled`, `none` |
 
 > Fill all fields when possible. If you do not have a required field, **ask the user** before proceeding.

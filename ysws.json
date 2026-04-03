@@ -26,7 +26,7 @@
       "proof": "https://hackclub.slack.com/archives/C09MATKQM8C/p1772997667857529?thread_ts=1772996636.500639&cid=C09MATKQM8C"
     },
     "economics": {
-      "doohickeys_to_dollars": 0.2,
+      "tokens_to_dollars": 0.2,
       "based_on": "https://hackclub.slack.com/archives/C09MATKQM8C/p1771304915154329?thread_ts=1771304786.665389&cid=C09MATKQM8C"
     },
     "irl_event": {
@@ -43,7 +43,7 @@
     },
     "economics": {
       "dollars_per_hour": 3.13,
-      "doohickeys_to_dollars": 0.25,
+      "tokens_to_dollars": 0.25,
       "based_on": "https://chatgpt.com/share/69cc07c8-8434-83e8-a52c-c80a58e6f4fe"
     },
     "irl_event": {

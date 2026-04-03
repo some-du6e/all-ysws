@@ -78,9 +78,9 @@ Step 7 — Current YSWS Programs (save this as baseline):
 • Cœur V2 — e-cards, deadline May 24. Website: coeur.hackclub.com
 • Enclosure — 3D-printed enclosures. Channel: C092D99G1RU
 • RaspAPI — Raspberry Pi Zero 2W for APIs. 7+ hours needed.
-• Flavortown — personal projects. Ends April 30. 0.20 $/doohickey. Channel: C09MPB8NE8H
+• Flavortown — personal projects. Ends April 30. 0.20 $/token. Channel: C09MPB8NE8H
 • Jackpot — $6/hour. Ends July 7. IRL event canceled. Channel: C0ADEGZL5HD
-• Remixed — music projects. Ends April 30. $3.13/hr + 0.25 $/doohickey. Channel: C0AKAQN2VJQ
+• Remixed — music projects. Ends April 30. $3.13/hr + 0.25 $/token. Channel: C0AKAQN2VJQ
 • Blueprint — hardware projects. Channel: C083S537USC
 • Boot — ship an OS. Ends June 1.
 • Spansion — 4 expansion cards + custom console.
