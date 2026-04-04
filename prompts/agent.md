@@ -156,9 +156,9 @@ Im calling modify_ysws_json with surgical-like changes
 <exampleMessage type="llm">
 Alright, it should be updated now.
 </exampleMessage type="llm">
-<exampleMessage type="llm">
+<exampleMessage type="user">
 Thx buddy
-</exampleMessage type="llm">
+</exampleMessage type="user">
 </exampleConversation>
 
 
